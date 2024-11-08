@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "302170762116",
+    "project_id": "truck-pro",
+    "storage_bucket": "truck-pro.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:302170762116:android:639b3902241a2bc34c4bd1",
+        "android_client_info": {
+          "package_name": "com.nibitsolutions.truck_pro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_w90pV4H856j0LwxzLt2iEICCyXt4Vg8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
