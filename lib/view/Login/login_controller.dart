@@ -3,13 +3,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:truck_pro/methods/loading_dialog.dart';
 import 'package:truck_pro/methods/show_customtoast.dart';
-import 'package:truck_pro/view/Home/home_screen_user.dart';
 import '../../methods/navigate.dart';
 import '../../models/user_model.dart';
 import '../../utilities/constants.dart';
-import '../Home/home_screen_admin.dart';
-import '../Home/home_screen_driver.dart';
+import '../BottomNavBar/bottom_nav_bar.dart';
 
 TextEditingController userNameController = TextEditingController();
 TextEditingController emailController = TextEditingController();
@@ -47,11 +46,12 @@ Future<bool> validateLoginFields(BuildContext context) async {
 
 Future<bool> logIn(String email, String password, BuildContext context) async {
   UserCredential? credentials;
-
+  showLoadingDialog(context, 'Logging In ...');
   try {
     credentials = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
   } on FirebaseAuthException catch (ex) {
+    Navigator.pop(context);
     showFlutterToast(context,
         message: ex.message.toString(), errorInfo: 'error');
     return false;
@@ -65,15 +65,15 @@ Future<bool> logIn(String email, String password, BuildContext context) async {
       UserModel.fromMap(userData.data() as Map<String, dynamic>);
 
   UserModel.loggedinUser = userModel;
+  Navigator.pop(context);
   showFlutterToast(context,
       message: "Login successfull!", errorInfo: 'success');
   navigateReplaceAll(
     context,
-    (UserModel.loggedinUser!.role == 'admin')
-        ? const HomeScreenAdmin()
-        : (UserModel.loggedinUser!.role == 'driver')
-            ? const HomeScreenDriver()
-            : const HomeScreenUser(),
+    BottomNavBarScreen(
+      initialIndex: 0,
+      role: userModel.role ?? 'guest',
+    ),
   );
   return true;
 }

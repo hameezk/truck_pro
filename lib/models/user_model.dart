@@ -4,8 +4,6 @@ class UserModel {
   String? email;
   String? phoneno;
   String? image;
-  List? recentBids;
-  List? savedBids;
   String? role;
 
   UserModel({
@@ -13,10 +11,8 @@ class UserModel {
     required this.name,
     required this.email,
     required this.phoneno,
-    required this.recentBids,
     required this.image,
     required this.role,
-    required this.savedBids,
   });
 
   UserModel.fromMap(Map<String, dynamic> map) {
@@ -25,9 +21,7 @@ class UserModel {
     email = map["email"];
     phoneno = map["phoneno"];
     image = map["image"];
-    recentBids = map["recentBids"];
     role = map["role"];
-    savedBids = map["savedBids"];
   }
 
   Map<String, dynamic> toMap() {
@@ -37,13 +31,38 @@ class UserModel {
       "email": email,
       "phoneno": phoneno,
       "image": image,
-      "recentBids": recentBids,
       "role": role,
-      "savedBids": savedBids,
     };
   }
 
   static UserModel? loggedinUser;
   static String defaultImage =
       'https://th.bing.com/th/id/R.ff49e3f95086a5354150f6587f450760?rik=ZLkvQ%2bNSitShtw&pid=ImgRaw&r=0';
+
+  // List<UserModel> defaultUsers = [
+  //   UserModel(
+  //     id: '1',
+  //     name: 'Admin',
+  //     email: 'admin@fmcgpro.com',
+  //     phoneno: '01234561',
+  //     image: defaultImage,
+  //     role: 'admin',
+  //   ),
+  //   UserModel(
+  //     id: '2',
+  //     name: 'Dispatcher',
+  //     email: 'user@fmcgpro.com',
+  //     phoneno: '01234562',
+  //     image: defaultImage,
+  //     role: 'user',
+  //   ),
+  //   UserModel(
+  //     id: '3',
+  //     name: 'Driver',
+  //     email: 'driver@fmcgpro.com',
+  //     phoneno: '01234563',
+  //     image: defaultImage,
+  //     role: 'driver',
+  //   ),
+  // ];
 }

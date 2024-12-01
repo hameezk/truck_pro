@@ -5,7 +5,7 @@ class AssetsManager {
   static String logo = "$baseIconPath/logo.png";
   static String arrowImage = "$baseImagePath/arrow.png";
   static String lockImage = "$baseImagePath/lock.png";
-  static String sampleImage = "$baseImagePath/sampleImg.png";
+  static String sampleImage = "$baseImagePath/sampleImg.jpeg";
   static String homeIcon = "$baseIconPath/homeIcon.png";
   static String manageIcon = "$baseIconPath/manageIcon.png";
   static String graphIconIcon = "$baseIconPath/graphIcon.png";

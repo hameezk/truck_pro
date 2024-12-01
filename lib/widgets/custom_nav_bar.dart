@@ -31,7 +31,7 @@ Widget navigationBar() {
                   ),
                   child: SizedBox(
                     child: Padding(
-                      padding: const EdgeInsets.all(1),
+                      padding: const EdgeInsets.all(0),
                       child: iconBtn(
                           navigationBarButtons.indexOf(button), context),
                     ),
@@ -75,7 +75,7 @@ SizedBox iconBtn(int buttonIndex, context) {
             padding: EdgeInsets.only(bottom: isActive ? 40.0 : 10),
             child: Image.asset(
               navigationBarButtons[buttonIndex].imagePath,
-              color: isActive ? AppColors.primaryColor : AppColors.greyColor,
+              color: isActive ? AppColors.primaryColor : AppColors.primaryColor,
               height: 20,
             ),
           ),
@@ -88,7 +88,8 @@ SizedBox iconBtn(int buttonIndex, context) {
             child: Text(
               isActive ? "•" : navigationBarButtons[buttonIndex].name,
               style: TextStyle(
-                color: isActive ? AppColors.primaryColor : AppColors.greyColor,
+                color:
+                    isActive ? AppColors.primaryColor : AppColors.primaryColor,
                 fontWeight: isActive ? FontWeight.w900 : null,
                 fontSize: isActive ? 30 : 12,
               ),

@@ -1,5 +1,4 @@
 import 'routes_name.dart';
-import '../view/BottomNavBar/bottom_nav_bar.dart';
 import '../view/Calender/show_calender_screen.dart';
 import '../view/InVoice/invoice_screen.dart';
 import '../view/Login/login_screen.dart';
@@ -32,10 +31,6 @@ class Routes {
 
       case RoutesName.otpScreen:
         return MaterialPageRoute(builder: (context) => const OTPScreen());
-
-      case RoutesName.navBar:
-        return MaterialPageRoute(
-            builder: (context) => BottomNavBarScreen(initialIndex: 0));
 
       case RoutesName.userProfileScreen:
         return MaterialPageRoute(

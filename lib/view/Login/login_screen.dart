@@ -1,7 +1,9 @@
 // ignore_for_file: avoid_unnecessary_containers
 
+import '../../methods/navigate.dart';
 import '../../utilities/assets_manager.dart';
 import '../../utilities/constants.dart';
+import '../Register/register_screen.dart';
 import 'login_controller.dart';
 import '../../utilities/app_colors.dart';
 import '../../utilities/screen_sizes.dart';
@@ -106,16 +108,32 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
 
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 30.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                validateLoginFields(context);
-                              },
-                              child: const CustomButton(
-                                buttonText: 'Login',
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    validateLoginFields(context);
+                                  },
+                                  child: const CustomButton(
+                                    buttonText: 'Login',
+                                  ),
+                                ),
                               ),
-                            ),
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: GestureDetector(
+                                  onTap: () =>
+                                      navigate(context, RegisterScreen()),
+                                  child: Text(
+                                    'Don\'t hane an account?',
+                                    style: headingSM.copyWith(
+                                        color: AppColors.primaryColor),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),

@@ -10,9 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'data/network/check_internet_connectivity.dart';
-import 'view/Home/home_screen_admin.dart';
-import 'view/Home/home_screen_driver.dart';
-import 'view/Home/home_screen_user.dart';
+import 'view/BottomNavBar/bottom_nav_bar.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +18,9 @@ Future<void> main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   User? currentUser = FirebaseAuth.instance.currentUser;
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
 
   if (currentUser != null) {
     UserModel? thisUserModel =
@@ -28,11 +29,9 @@ Future<void> main() async {
       UserModel.loggedinUser = thisUserModel;
       runApp(const MyAppLoggedIn());
     }
+  } else {
+    runApp(const MyApp());
   }
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]);
-  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -61,11 +60,10 @@ class MyAppLoggedIn extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: AppStyles.themeData(),
-        home: (UserModel.loggedinUser!.role == 'admin')
-            ? const HomeScreenAdmin()
-            : (UserModel.loggedinUser!.role == 'driver')
-                ? const HomeScreenDriver()
-                : const HomeScreenUser(),
+        home: BottomNavBarScreen(
+          initialIndex: 0,
+          role: UserModel.loggedinUser!.role ?? 'guest',
+        ),
       ),
     );
   }

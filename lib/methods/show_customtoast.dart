@@ -1,3 +1,5 @@
+import 'package:truck_pro/utilities/screen_sizes.dart';
+
 import '../utilities/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -28,9 +30,13 @@ showFlutterToast(
                 color: AppColors.whiteColor,
               ),
         const SizedBox(width: 10),
-        Text(
-          message,
-          style: const TextStyle(color: AppColors.whiteColor),
+        SizedBox(
+          width: screenWidth(context) - 150,
+          child: Text(
+            message,
+            maxLines: 3,
+            style: const TextStyle(color: AppColors.whiteColor),
+          ),
         ),
       ],
     ),
