@@ -2,17 +2,14 @@
 
 import 'package:truck_pro/view/Home/home_screen_driver.dart';
 import 'package:truck_pro/view/Home/home_screen_user.dart';
-
 import '../../utilities/app_colors.dart';
 import '../../viewmodel/bottom_nav_view_model.dart';
 import '../../widgets/custom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../Account/account_screen.dart';
+import '../Chats/chats.dart';
 import '../Home/home_screen_admin.dart';
-import '../Manage/management_screen.dart';
-import '../PayRoll/payroll_screen.dart';
+import '../Orders/orders.dart';
 
 class BottomNavBarScreen extends StatefulWidget {
   int initialIndex;
@@ -28,21 +25,21 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
   late BottomNavViewModel bottomNavViewModel;
   List<Widget> adminScreens = [
     HomeScreenAdmin(),
-    ManagementScreen(),
-    PayRollScreen(),
-    AccountScreen(),
+    ChatPage(),
+    Placeholder(),
+    Placeholder(),
   ];
   List<Widget> userScreens = [
     HomeScreenUser(),
-    ManagementScreen(),
-    PayRollScreen(),
-    AccountScreen(),
+    ChatPage(),
+    MyOrders(),
+    Placeholder(),
   ];
   List<Widget> driverScreens = [
     HomeScreenDriver(),
-    ManagementScreen(),
-    PayRollScreen(),
-    AccountScreen(),
+    ChatPage(),
+    Placeholder(),
+    Placeholder(),
   ];
   @override
   void initState() {

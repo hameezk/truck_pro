@@ -1,7 +1,6 @@
 import '../../utilities/app_colors.dart';
 import '../../utilities/assets_manager.dart';
 import '../../utilities/constants.dart';
-import '../../routes/routes_name.dart';
 import '../Login/login_screen.dart';
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_text_field.dart';
@@ -83,7 +82,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       SizedBox(
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, RoutesName.otpScreen);
+                            resetPassword(context);
                           },
                           child: const CustomButton(
                             buttonText: 'Send email',
@@ -100,4 +99,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       ),
     );
   }
+
+  void resetPassword(BuildContext context) {}
 }

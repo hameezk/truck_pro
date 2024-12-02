@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:truck_pro/models/user_model.dart';
-
 import '../../models/order_model.dart';
 import '../../utilities/screen_sizes.dart';
 import 'package:flutter/material.dart';
-
 import '../../utilities/app_colors.dart';
 import '../../utilities/assets_manager.dart';
 import '../../utilities/constants.dart';
@@ -24,7 +22,7 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          backgroundColor: AppColors.primaryColor,
+          backgroundColor: AppColors.backGroundColor,
           body: Padding(
             padding: const EdgeInsets.only(top: 20.0),
             child: Column(
@@ -49,8 +47,9 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
                         ),
                         Text(
                           UserModel.loggedinUser!.name ?? '',
-                          style: textThemeData(context).headlineSmall!.copyWith(
-                              color: AppColors.blackColor.withOpacity(0.5)),
+                          style: textThemeData(context)
+                              .headlineSmall!
+                              .copyWith(color: AppColors.primaryColor),
                         )
                       ],
                     ),
@@ -85,28 +84,46 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
                           ),
                           heightSizedBox20,
                           Expanded(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  Text('My Orders',
-                                      style: textThemeData(context)
-                                          .headlineMedium!),
-                                  StreamBuilder(
-                                    stream: FirebaseFirestore.instance
-                                        .collection("orders")
-                                        .where("userId",
-                                            isEqualTo:
-                                                UserModel.loggedinUser!.id)
-                                        .snapshots(),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.active) {
-                                        if (snapshot.hasData) {
-                                          QuerySnapshot orderSnapshot =
-                                              snapshot.data as QuerySnapshot;
-                                          print("Data: ${orderSnapshot.docs}");
-                                          return (orderSnapshot.docs.length > 0)
-                                              ? ListView.builder(
+                            child: Column(
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Active Orders',
+                                        style: textThemeData(context)
+                                            .headlineMedium!),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 2.0),
+                                      child: Text(
+                                        "See all",
+                                        style: headingSM.copyWith(fontSize: 12),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                StreamBuilder(
+                                  stream: FirebaseFirestore.instance
+                                      .collection("orders")
+                                      .where("userId",
+                                          isEqualTo: UserModel.loggedinUser!.id)
+                                      .where("status", isEqualTo: 'active')
+                                      .snapshots(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.active) {
+                                      if (snapshot.hasData) {
+                                        QuerySnapshot orderSnapshot =
+                                            snapshot.data as QuerySnapshot;
+                                        print("Data: ${orderSnapshot.docs}");
+                                        return (orderSnapshot.docs.length > 0)
+                                            ? Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 8.0),
+                                                child: ListView.separated(
                                                   shrinkWrap: true,
                                                   itemCount:
                                                       orderSnapshot.docs.length,
@@ -119,45 +136,55 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
                                                                     .data()
                                                                 as Map<String,
                                                                     dynamic>);
-                                                    return OrderListile();
+                                                    return OrderListile(
+                                                      orderModel: orderModel,
+                                                    );
                                                   },
-                                                )
-                                              : Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      "No Orders to show!",
-                                                      style: headingSM,
-                                                    ),
-                                                  ],
-                                                );
-                                        } else if (snapshot.hasError) {
-                                          return Center(
+                                                  separatorBuilder:
+                                                      (BuildContext context,
+                                                              int index) =>
+                                                          SizedBox(
+                                                    height: 7,
+                                                  ),
+                                                ),
+                                              )
+                                            : Expanded(
+                                                child: Center(
+                                                  child: Text(
+                                                    "No Active Orders To Show!",
+                                                    style: headingSM,
+                                                  ),
+                                                ),
+                                              );
+                                      } else if (snapshot.hasError) {
+                                        return Expanded(
+                                          child: Center(
                                             child: Text(
                                               snapshot.error.toString(),
                                               style: headingSM,
                                             ),
-                                          );
-                                        } else {
-                                          return Center(
+                                          ),
+                                        );
+                                      } else {
+                                        return Expanded(
+                                          child: Center(
                                             child: Text(
                                               "No Orders to show!",
                                               style: headingSM,
                                             ),
-                                          );
-                                        }
-                                      } else {
-                                        return const Center(
-                                          child: CircularProgressIndicator(),
+                                          ),
                                         );
                                       }
-                                    },
-                                  ),
-                                ],
-                              ),
+                                    } else {
+                                      return Expanded(
+                                        child: const Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                ),
+                              ],
                             ),
                           )
                         ],
@@ -175,8 +202,10 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
 }
 
 class OrderListile extends StatelessWidget {
+  final OrderModel orderModel;
   const OrderListile({
     super.key,
+    required this.orderModel,
   });
 
   @override
@@ -185,7 +214,7 @@ class OrderListile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: AppColors.primaryColor),
+          color: AppColors.lightGreyColor),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

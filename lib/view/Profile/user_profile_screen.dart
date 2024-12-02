@@ -1,6 +1,5 @@
 import '../../utilities/assets_manager.dart';
 import '../../utilities/constants.dart';
-import '../../routes/routes_name.dart';
 import '../../utilities/screen_sizes.dart';
 import 'package:flutter/material.dart';
 import '../../utilities/app_colors.dart';
@@ -108,13 +107,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         onTap: () {
                           switch (index) {
                             case 0:
-                              Navigator.pushNamed(
-                                  context, RoutesName.personalDetail);
+                              // Navigator.pushNamed(
+                              //     context, RoutesName.personalDetail);
                               break;
 
                             case 1:
-                              Navigator.pushNamed(
-                                  context, RoutesName.paymentDetail);
+                              // Navigator.pushNamed(
+                              //     context, RoutesName.paymentDetail);
                               break;
 
                             default:

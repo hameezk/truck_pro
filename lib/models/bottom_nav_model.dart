@@ -14,8 +14,7 @@ class NavigationBarModel {
 
 List<NavigationBarModel> navigationBarButtons = [
   NavigationBarModel(id: 0, imagePath: AssetsManager.homeIcon, name: "Home"),
-  NavigationBarModel(
-      id: 1, imagePath: AssetsManager.manageIcon, name: "Attendence"),
+  NavigationBarModel(id: 1, imagePath: AssetsManager.manageIcon, name: "Chats"),
   NavigationBarModel(
       id: 2, imagePath: AssetsManager.graphIconIcon, name: "Payroll"),
   NavigationBarModel(

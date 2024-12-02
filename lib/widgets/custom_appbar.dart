@@ -1,8 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import '../utilities/screen_sizes.dart';
 import 'package:flutter/material.dart';
-
 import '../utilities/app_colors.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -29,6 +27,7 @@ class CustomAppBar extends StatelessWidget {
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 showBackButton ?? false
                     ? SizedBox(
@@ -43,18 +42,18 @@ class CustomAppBar extends StatelessWidget {
                         ),
                       )
                     : SizedBox(
-                        width: screenWidth(context) * 0.33,
+                        width: 60,
                       ),
-                showBackButton == true
-                    ? SizedBox(width: screenWidth(context) * 0.2)
-                    : SizedBox(),
                 Text(
                   title,
                   style: TextStyle(
-                    color: foreGroundColor ?? AppColors.blackColor,
+                    color: foreGroundColor ?? AppColors.primaryColor,
                     fontSize: 18,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w700,
                   ),
+                ),
+                SizedBox(
+                  width: 60,
                 ),
               ],
             ),

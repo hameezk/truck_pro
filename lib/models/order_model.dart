@@ -6,6 +6,7 @@ class OrderModel {
   String? deliveryLocation;
   String? createdAt;
   String? deliveredAt;
+  String? status;
   bool? isAccepted;
   bool? isActive;
   bool? isDelivered;
@@ -23,6 +24,7 @@ class OrderModel {
     required this.isActive,
     required this.isDelivered,
     required this.orderItems,
+    required this.status,
   });
 
   OrderModel.fromMap(Map<String, dynamic> map) {
@@ -37,6 +39,7 @@ class OrderModel {
     isActive = map["isActive"];
     isDelivered = map["isDelivered"];
     orderItems = map["orderItems"];
+    status = map["status"];
   }
 
   Map<String, dynamic> toMap() {
@@ -52,6 +55,7 @@ class OrderModel {
       "isActive": isActive,
       "isDelivered": isDelivered,
       "orderItems": orderItems,
+      "status": status,
     };
   }
 }
