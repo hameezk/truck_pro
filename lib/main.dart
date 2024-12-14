@@ -55,6 +55,8 @@ class MyAppLoggedIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String role = UserModel.loggedinUser!.role ?? 'guest';
+    debugPrint('role: $role');
     return MultiProvider(
       providers: appProviders,
       child: MaterialApp(
@@ -62,7 +64,7 @@ class MyAppLoggedIn extends StatelessWidget {
         theme: AppStyles.themeData(),
         home: BottomNavBarScreen(
           initialIndex: 0,
-          role: UserModel.loggedinUser!.role ?? 'guest',
+          role: role,
         ),
       ),
     );

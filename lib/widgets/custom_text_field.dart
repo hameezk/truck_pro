@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatelessWidget {
   final String hintText;
   final bool obsureText;
+  final bool? readOnly;
   final TextEditingController? controller;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
@@ -15,6 +16,7 @@ class CustomTextField extends StatelessWidget {
     this.obsureText = false,
     this.suffixIcon,
     this.prefixIcon,
+    this.readOnly,
   });
 
   @override
@@ -25,6 +27,7 @@ class CustomTextField extends StatelessWidget {
         obscureText: obsureText,
         style: const TextStyle(color: AppColors.whiteColor),
         controller: controller,
+        readOnly: readOnly ?? false,
         textAlignVertical: TextAlignVertical.top,
         decoration: InputDecoration(
           fillColor: AppColors.backGroundColor,

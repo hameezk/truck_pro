@@ -18,5 +18,5 @@ List<NavigationBarModel> navigationBarButtons = [
   NavigationBarModel(
       id: 2, imagePath: AssetsManager.graphIconIcon, name: "Payroll"),
   NavigationBarModel(
-      id: 3, imagePath: AssetsManager.profileIconIcon, name: "Employees"),
+      id: 3, imagePath: AssetsManager.profileIconIcon, name: "Settings"),
 ];

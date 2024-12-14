@@ -2,6 +2,7 @@
 
 import 'package:truck_pro/view/Home/home_screen_driver.dart';
 import 'package:truck_pro/view/Home/home_screen_user.dart';
+import 'package:truck_pro/view/Settings/settings_screen.dart';
 import '../../utilities/app_colors.dart';
 import '../../viewmodel/bottom_nav_view_model.dart';
 import '../../widgets/custom_nav_bar.dart';
@@ -27,19 +28,19 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
     HomeScreenAdmin(),
     ChatPage(),
     Placeholder(),
-    Placeholder(),
+    SettingsScreen(),
   ];
   List<Widget> userScreens = [
     HomeScreenUser(),
     ChatPage(),
     MyOrders(),
-    Placeholder(),
+    SettingsScreen(),
   ];
   List<Widget> driverScreens = [
     HomeScreenDriver(),
     ChatPage(),
     Placeholder(),
-    Placeholder(),
+    SettingsScreen(),
   ];
   @override
   void initState() {

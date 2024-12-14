@@ -4,28 +4,39 @@ class OrderModel {
   String? driverId;
   String? pickupLocation;
   String? deliveryLocation;
+  String? pickuplatitude;
+  String? pickupLongitude;
+  String? deliverylatitude;
+  String? deliveryLongitude;
   String? createdAt;
   String? deliveredAt;
   String? status;
+  String? trackingStatus;
   bool? isAccepted;
   bool? isActive;
   bool? isDelivered;
-  List<Map>? orderItems;
+  bool? isPicked;
+  List? orderItems;
 
-  OrderModel({
-    required this.orderId,
-    required this.userId,
-    required this.driverId,
-    required this.pickupLocation,
-    required this.deliveryLocation,
-    required this.createdAt,
-    required this.deliveredAt,
-    required this.isAccepted,
-    required this.isActive,
-    required this.isDelivered,
-    required this.orderItems,
-    required this.status,
-  });
+  OrderModel(
+      {required this.orderId,
+      required this.userId,
+      required this.driverId,
+      required this.pickupLocation,
+      required this.deliveryLocation,
+      required this.pickupLongitude,
+      required this.pickuplatitude,
+      required this.deliveryLongitude,
+      required this.deliverylatitude,
+      required this.createdAt,
+      required this.deliveredAt,
+      required this.isAccepted,
+      required this.isActive,
+      required this.isDelivered,
+      required this.orderItems,
+      required this.status,
+      required this.isPicked,
+      required this.trackingStatus});
 
   OrderModel.fromMap(Map<String, dynamic> map) {
     orderId = map["orderId"];
@@ -40,6 +51,8 @@ class OrderModel {
     isDelivered = map["isDelivered"];
     orderItems = map["orderItems"];
     status = map["status"];
+    trackingStatus = map["trackingStatus"] ?? "placed";
+    isPicked = map["isPicked"] ?? false;
   }
 
   Map<String, dynamic> toMap() {
@@ -56,6 +69,8 @@ class OrderModel {
       "isDelivered": isDelivered,
       "orderItems": orderItems,
       "status": status,
+      "trackingStatus": trackingStatus,
+      "isPicked": isPicked,
     };
   }
 }

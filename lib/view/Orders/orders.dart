@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:truck_pro/methods/navigate.dart';
 import 'package:truck_pro/utilities/app_colors.dart';
+import 'package:truck_pro/view/Orders/create_order.dart';
 import 'package:truck_pro/widgets/custom_appbar.dart';
 
 import '../../models/order_model.dart';
@@ -145,6 +147,16 @@ class _MyOrdersState extends State<MyOrders> {
               ),
             ),
           ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          navigate(context, CreateOrder());
+        },
+        backgroundColor: AppColors.primaryColor,
+        child: Icon(
+          Icons.add,
+          color: AppColors.backGroundColor,
         ),
       ),
     );

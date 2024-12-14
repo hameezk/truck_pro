@@ -36,7 +36,7 @@ class ChatPageState extends State<ChatPage> {
               stream: FirebaseFirestore.instance
                   .collection("chats")
                   .where("participants.${UserModel.loggedinUser!.id}",
-                      isEqualTo: true)
+                      isEqualTo: false)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
