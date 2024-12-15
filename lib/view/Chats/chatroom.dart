@@ -32,7 +32,7 @@ class ChatRoomState extends State<ChatRoom> {
     messageController.clear();
 
     if (msg != "") {
-      ChatModel newMessage = ChatModel(
+      MessageModel newMessage = MessageModel(
         messageId: uuid.v1(),
         sender: widget.userModel.id,
         createdon: DateTime.now().toString(),
@@ -41,7 +41,7 @@ class ChatRoomState extends State<ChatRoom> {
       );
 
       FirebaseFirestore.instance
-          .collection("chats")
+          .collection("chatrooms")
           .doc(widget.chatRoom.chatroomId)
           .collection("messages")
           .doc(newMessage.messageId)
@@ -58,10 +58,11 @@ class ChatRoomState extends State<ChatRoom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: AppColors.backGroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        backgroundColor: Theme.of(context).canvasColor,
+        backgroundColor: AppColors.backGroundColor,
+        foregroundColor: AppColors.whiteColor,
         title: Row(
           children: [
             CircleAvatar(
@@ -77,88 +78,14 @@ class ChatRoomState extends State<ChatRoom> {
             ),
             Text(
               widget.targetUser.name.toString(),
-              style: const TextStyle(fontSize: 18),
+              style: const TextStyle(
+                  fontSize: 20,
+                  color: AppColors.whiteColor,
+                  fontWeight: FontWeight.bold),
               maxLines: 2,
             )
           ],
         ),
-        // actions: [
-        //   PopupMenuButton<int>(
-        //     itemBuilder: (context) => [
-        //       const PopupMenuItem(
-        //         value: 1,
-        //         child: Row(
-        //           children: [
-        //             Icon(
-        //               Icons.person,
-        //               size: 30.0,
-        //               color: Colors.blueGrey,
-        //             ),
-        //             SizedBox(
-        //               // sized box with width 10
-        //               width: 10,
-        //             ),
-        //             Text(
-        //               "View Profile",
-        //               style: TextStyle(
-        //                 color: Colors.blueGrey,
-        //                 fontWeight: FontWeight.w500,
-        //               ),
-        //             )
-        //           ],
-        //         ),
-        //       ),
-        //       const PopupMenuItem(
-        //         value: 2,
-        //         child: Row(
-        //           children: [
-        //             Icon(
-        //               CupertinoIcons.exclamationmark_shield,
-        //               size: 30.0,
-        //               color: Colors.blueGrey,
-        //             ),
-        //             SizedBox(
-        //               width: 10,
-        //             ),
-        //             Text(
-        //               "Report Chat",
-        //               style: TextStyle(
-        //                 color: Colors.blueGrey,
-        //                 fontWeight: FontWeight.w500,
-        //               ),
-        //             ),
-        //           ],
-        //         ),
-        //       ),
-        //     ],
-        //     offset: const Offset(0, 40),
-        //     color: Colors.grey[100],
-        //     elevation: 2,
-        //     onSelected: (value) {
-        //       if (value == 1) {
-        //         Navigator.push(
-        //           context,
-        //           MaterialPageRoute(
-        //             builder: (context) {
-        //               return ViewProfile(
-        //                 userModel: widget.userModel,
-        //                 firebaseUser: widget.firebaseUser,
-        //                 targetUserModel: widget.targetUser,
-        //               );
-        //             },
-        //           ),
-        //         );
-        //       } else if (value == 2) {
-        //         _showReportDialog(
-        //           context,
-        //           widget.targetUser.uid!,
-        //           widget.userModel.uid!,
-        //           widget.chatRoom.chatroomId!,
-        //         );
-        //       }
-        //     },
-        //   ),
-        // ],
       ),
       body: SafeArea(
         child: Column(
@@ -180,7 +107,7 @@ class ChatRoomState extends State<ChatRoom> {
                       return ListView.builder(
                         reverse: true,
                         itemBuilder: (context, index) {
-                          ChatModel currentMessage = ChatModel.fromMap(
+                          MessageModel currentMessage = MessageModel.fromMap(
                               dataSnapshot.docs[index].data()
                                   as Map<String, dynamic>);
 
@@ -212,7 +139,7 @@ class ChatRoomState extends State<ChatRoom> {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(20),
-                                          color: AppColors.primaryColor,
+                                          color: AppColors.blueColor,
                                         ),
                                         child: Text(
                                           currentMessage.text.toString(),
@@ -256,13 +183,13 @@ class ChatRoomState extends State<ChatRoom> {
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(20),
-                                            color: AppColors.blackColor,
+                                            color: AppColors.greyColor,
                                           ),
                                           child: Text(
                                               currentMessage.text.toString(),
                                               maxLines: 20,
                                               style: const TextStyle(
-                                                color: AppColors.blackColor,
+                                                color: AppColors.whiteColor,
                                               ))),
                                     ],
                                   ),
@@ -302,10 +229,12 @@ class ChatRoomState extends State<ChatRoom> {
                           child: TextField(
                             controller: messageController,
                             maxLines: null,
-                            style: const TextStyle(color: Colors.blueGrey),
-                            decoration: const InputDecoration(
+                            style: const TextStyle(color: AppColors.whiteColor),
+                            decoration: InputDecoration(
                               hintText: "Enter Message...",
-                              hintStyle: TextStyle(color: Colors.blueGrey),
+                              hintStyle: TextStyle(
+                                  color:
+                                      AppColors.primaryColor.withOpacity(0.7)),
                             ),
                           ),
                         ),

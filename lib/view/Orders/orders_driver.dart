@@ -1,24 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:truck_pro/methods/navigate.dart';
+import 'package:truck_pro/models/user_model.dart';
 import 'package:truck_pro/utilities/app_colors.dart';
 import 'package:truck_pro/view/Orders/create_order.dart';
 import 'package:truck_pro/widgets/custom_appbar.dart';
-
 import '../../models/order_model.dart';
-import '../../models/user_model.dart';
 import '../../utilities/constants.dart';
 import '../../utilities/screen_sizes.dart';
 import 'orders_card.dart';
 
-class MyOrders extends StatefulWidget {
-  const MyOrders({super.key});
+class MyOrdersDriver extends StatefulWidget {
+  const MyOrdersDriver({super.key});
 
   @override
-  State<MyOrders> createState() => _MyOrdersState();
+  State<MyOrdersDriver> createState() => _MyOrdersState();
 }
 
-class _MyOrdersState extends State<MyOrders> {
+class _MyOrdersState extends State<MyOrdersDriver> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,8 +62,6 @@ class _MyOrdersState extends State<MyOrders> {
                             StreamBuilder(
                               stream: FirebaseFirestore.instance
                                   .collection("orders")
-                                  .where("userId",
-                                      isEqualTo: UserModel.loggedinUser!.id)
                                   .where("status", isEqualTo: 'active')
                                   .snapshots(),
                               builder: (context, snapshot) {
@@ -78,7 +75,7 @@ class _MyOrdersState extends State<MyOrders> {
                                         ? Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 8.0),
-                                            child: ListView.separated(
+                                            child: ListView.builder(
                                               shrinkWrap: true,
                                               itemCount:
                                                   orderSnapshot.docs.length,
@@ -90,16 +87,24 @@ class _MyOrdersState extends State<MyOrders> {
                                                                 .data()
                                                             as Map<String,
                                                                 dynamic>);
-                                                return OrderListile(
-                                                  orderModel: orderModel,
-                                                );
+                                                if (orderModel.isAccepted ==
+                                                    false) {
+                                                  return OrderListile(
+                                                    orderModel: orderModel,
+                                                  );
+                                                } else if (orderModel
+                                                            .isAccepted ==
+                                                        true &&
+                                                    orderModel.driverId ==
+                                                        UserModel
+                                                            .loggedinUser!.id) {
+                                                  return OrderListile(
+                                                    orderModel: orderModel,
+                                                  );
+                                                } else {
+                                                  return SizedBox();
+                                                }
                                               },
-                                              separatorBuilder:
-                                                  (BuildContext context,
-                                                          int index) =>
-                                                      SizedBox(
-                                                height: 7,
-                                              ),
                                             ),
                                           )
                                         : Expanded(

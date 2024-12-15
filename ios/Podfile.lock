@@ -1375,6 +1375,8 @@ PODS:
     - Flutter
     - FlutterMacOS
   - Toast (4.1.1)
+  - url_launcher_ios (0.0.1):
+    - Flutter
   - WeScan (3.0.0)
 
 DEPENDENCIES:
@@ -1391,6 +1393,7 @@ DEPENDENCIES:
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - WeScan (from `.symlinks/plugins/edge_detection/ios/WeScan-3.0.0`)
 
 SPEC REPOS:
@@ -1446,6 +1449,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
   WeScan:
     :path: ".symlinks/plugins/edge_detection/ios/WeScan-3.0.0"
 
@@ -1486,6 +1491,7 @@ SPEC CHECKSUMS:
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
   Toast: 1f5ea13423a1e6674c4abdac5be53587ae481c4e
+  url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
   WeScan: f50277f7304d146d9ebc4ebdc1b587df84dcdd8b
 
 PODFILE CHECKSUM: 6a4d557d5a939c6a844eee2a9892c4a32b39de28

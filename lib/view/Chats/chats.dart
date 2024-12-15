@@ -34,9 +34,9 @@ class ChatPageState extends State<ChatPage> {
           children: [
             StreamBuilder(
               stream: FirebaseFirestore.instance
-                  .collection("chats")
+                  .collection("chatrooms")
                   .where("participants.${UserModel.loggedinUser!.id}",
-                      isEqualTo: false)
+                      isEqualTo: true)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
@@ -72,80 +72,68 @@ class ChatPageState extends State<ChatPage> {
                                     if (userData.data != null) {
                                       UserModel targetUser =
                                           userData.data as UserModel;
-                                      return ListTile(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) {
-                                              return ChatRoom(
-                                                chatRoom: chatRoomModel,
-                                                userModel:
-                                                    UserModel.loggedinUser!,
-                                                targetUser: targetUser,
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Card(
+                                          color: AppColors.primaryColor,
+                                          child: ListTile(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) {
+                                                  return ChatRoom(
+                                                    chatRoom: chatRoomModel,
+                                                    userModel:
+                                                        UserModel.loggedinUser!,
+                                                    targetUser: targetUser,
+                                                  );
+                                                }),
                                               );
-                                            }),
-                                          );
-                                        },
-                                        leading: CircleAvatar(
-                                          backgroundColor: Colors.transparent,
-                                          foregroundImage: NetworkImage(
-                                              targetUser.image.toString()),
-                                          child:
-                                              const CircularProgressIndicator(),
-                                        ),
-                                        title: Row(
-                                          children: [
-                                            Text(
-                                              targetUser.name.toString(),
-                                              style: const TextStyle(
-                                                  color: AppColors.blackColor,
-                                                  fontWeight: FontWeight.bold),
+                                            },
+                                            leading: CircleAvatar(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              foregroundImage: NetworkImage(
+                                                  targetUser.image.toString()),
+                                              child:
+                                                  const CircularProgressIndicator(),
                                             ),
-                                            (targetUser.id ==
-                                                    'tBuAzA90NffCXIyfMiKR0Nw3RHc2')
-                                                ? SizedBox(
-                                                    height: 20,
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 4.0),
-                                                      child: Image.asset(
-                                                          'assets/verify.png'),
-                                                    ))
-                                                : const Text('')
-                                          ],
-                                        ),
-                                        subtitle: (chatRoomModel.lastMessage
-                                                    .toString() !=
-                                                "")
-                                            ? Text(chatRoomModel.lastMessage
-                                                .toString())
-                                            : const Text(
-                                                "Start a conversation",
-                                                style: TextStyle(
-                                                    color: AppColors.greyColor),
-                                              ),
-                                        trailing: IconButton(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          onPressed: () {
-                                            // Navigator.push(
-                                            //   context,
-                                            //   MaterialPageRoute(
-                                            //     builder: (context) {
-                                            //       return ViewProfile(
-                                            //         userModel: widget.userModel,
-                                            //         firebaseUser: widget.firebaseUser,
-                                            //         targetUserModel: targetUser,
-                                            //       );
-                                            //     },
-                                            //   ),
-                                            // );
-                                          },
-                                          icon: const Icon(
-                                            Icons.person,
-                                            size: 40.0,
+                                            title: Row(
+                                              children: [
+                                                Text(
+                                                  targetUser.name.toString(),
+                                                  style: const TextStyle(
+                                                      color:
+                                                          AppColors.blackColor,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                (targetUser.role == 'admin')
+                                                    ? SizedBox(
+                                                        height: 20,
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  left: 4.0),
+                                                          child: Image.asset(
+                                                              'assets/verify.png'),
+                                                        ))
+                                                    : const Text('')
+                                              ],
+                                            ),
+                                            subtitle: (chatRoomModel.lastMessage
+                                                        .toString() !=
+                                                    "")
+                                                ? Text(chatRoomModel.lastMessage
+                                                    .toString())
+                                                : const Text(
+                                                    "Start a conversation",
+                                                    style: TextStyle(
+                                                        color: AppColors
+                                                            .greyColor),
+                                                  ),
                                           ),
                                         ),
                                       );

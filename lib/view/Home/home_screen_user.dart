@@ -1,15 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 import 'package:truck_pro/methods/navigate.dart';
 import 'package:truck_pro/models/user_model.dart';
 import 'package:truck_pro/view/BottomNavBar/bottom_nav_bar.dart';
-import 'package:truck_pro/view/Orders/order_details.dart';
 import '../../models/order_model.dart';
 import '../../utilities/screen_sizes.dart';
 import 'package:flutter/material.dart';
 import '../../utilities/app_colors.dart';
 import '../../utilities/assets_manager.dart';
 import '../../utilities/constants.dart';
+import '../Orders/orders_card.dart';
 
 class HomeScreenUser extends StatefulWidget {
   const HomeScreenUser({super.key});
@@ -213,70 +212,6 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class OrderListile extends StatelessWidget {
-  final OrderModel orderModel;
-  const OrderListile({
-    super.key,
-    required this.orderModel,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => navigate(context, OrderDetails(orderModel: orderModel)),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: AppColors.backGroundColor),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  orderModel.orderItems![0]['name'],
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: textThemeData(context)
-                      .headlineSmall!
-                      .copyWith(fontSize: 14),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5.0),
-                  child: Text(
-                    orderModel.trackingStatus ?? "",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: textThemeData(context)
-                        .headlineSmall!
-                        .copyWith(fontSize: 12),
-                  ),
-                ),
-                Text(
-                  DateFormat('EEEE, MMM d, yyyy')
-                      .format(DateTime.parse(orderModel.createdAt ?? '')),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: textThemeData(context).headlineSmall!.copyWith(
-                      fontSize: 12,
-                      color: AppColors.whiteColor.withOpacity(0.8)),
-                ),
-              ],
-            ),
-            const Icon(
-              Icons.arrow_forward_ios,
-              size: 18,
-              color: AppColors.whiteColor,
-            )
-          ],
         ),
       ),
     );

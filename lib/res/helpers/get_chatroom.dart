@@ -45,7 +45,7 @@ Future<ChatroomModel?> getChatroomModelAdmin(UserModel targetUser) async {
 
   QuerySnapshot snapshot = await FirebaseFirestore.instance
       .collection("chatrooms")
-      .where("participants.tBuAzA90NffCXIyfMiKR0Nw3RHc2", isEqualTo: true)
+      .where("participants.${UserModel.loggedinUser!.id}", isEqualTo: true)
       .where("participants.${targetUser.id}", isEqualTo: true)
       .get();
 
@@ -59,7 +59,7 @@ Future<ChatroomModel?> getChatroomModelAdmin(UserModel targetUser) async {
       chatroomId: uuid.v1(),
       lastMessage: "",
       participants: {
-        'tBuAzA90NffCXIyfMiKR0Nw3RHc2': true,
+        UserModel.loggedinUser!.id.toString(): true,
         targetUser.id.toString(): true,
       },
     );

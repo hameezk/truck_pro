@@ -24,14 +24,14 @@ class ChatroomModel {
   }
 }
 
-class ChatModel {
+class MessageModel {
   String? messageId;
   String? sender;
   String? text;
   bool? seen;
   String? createdon;
 
-  ChatModel({
+  MessageModel({
     this.messageId,
     this.sender,
     this.text,
@@ -39,7 +39,7 @@ class ChatModel {
     this.createdon,
   });
 
-  ChatModel.fromMap(Map<String, dynamic> map) {
+  MessageModel.fromMap(Map<String, dynamic> map) {
     messageId = map["messageId"];
     sender = map["sender"];
     text = map["text"];

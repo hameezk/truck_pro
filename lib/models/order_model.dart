@@ -49,6 +49,11 @@ class OrderModel {
     isAccepted = map["isAccepted"];
     isActive = map["isActive"];
     isDelivered = map["isDelivered"];
+    pickuplatitude = map["pickuplatitude"];
+    pickupLongitude = map["pickupLongitude"];
+    deliverylatitude = map["deliverylatitude"];
+    deliveryLongitude = map["deliveryLongitude"];
+    isDelivered = map["isDelivered"];
     orderItems = map["orderItems"];
     status = map["status"];
     trackingStatus = map["trackingStatus"] ?? "placed";
@@ -69,6 +74,10 @@ class OrderModel {
       "isDelivered": isDelivered,
       "orderItems": orderItems,
       "status": status,
+      "pickuplatitude": pickuplatitude,
+      "pickupLongitude": pickupLongitude,
+      "deliveryLongitude": deliveryLongitude,
+      "deliverylatitude": deliverylatitude,
       "trackingStatus": trackingStatus,
       "isPicked": isPicked,
     };

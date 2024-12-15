@@ -11,6 +11,8 @@ import 'package:provider/provider.dart';
 import '../Chats/chats.dart';
 import '../Home/home_screen_admin.dart';
 import '../Orders/orders.dart';
+import '../Orders/orders_admin.dart';
+import '../Orders/orders_driver.dart';
 
 class BottomNavBarScreen extends StatefulWidget {
   int initialIndex;
@@ -27,7 +29,7 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
   List<Widget> adminScreens = [
     HomeScreenAdmin(),
     ChatPage(),
-    Placeholder(),
+    MyOrdersAdmin(),
     SettingsScreen(),
   ];
   List<Widget> userScreens = [
@@ -39,7 +41,7 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
   List<Widget> driverScreens = [
     HomeScreenDriver(),
     ChatPage(),
-    Placeholder(),
+    MyOrdersDriver(),
     SettingsScreen(),
   ];
   @override

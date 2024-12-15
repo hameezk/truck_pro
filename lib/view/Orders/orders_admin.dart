@@ -11,14 +11,14 @@ import '../../utilities/constants.dart';
 import '../../utilities/screen_sizes.dart';
 import 'orders_card.dart';
 
-class MyOrders extends StatefulWidget {
-  const MyOrders({super.key});
+class MyOrdersAdmin extends StatefulWidget {
+  const MyOrdersAdmin({super.key});
 
   @override
-  State<MyOrders> createState() => _MyOrdersState();
+  State<MyOrdersAdmin> createState() => _MyOrdersState();
 }
 
-class _MyOrdersState extends State<MyOrders> {
+class _MyOrdersState extends State<MyOrdersAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
