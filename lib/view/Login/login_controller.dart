@@ -7,6 +7,7 @@ import 'package:truck_pro/methods/loading_dialog.dart';
 import 'package:truck_pro/methods/show_customtoast.dart';
 import '../../methods/navigate.dart';
 import '../../models/user_model.dart';
+import '../../res/helpers/firebase_helper.dart';
 import '../../utilities/constants.dart';
 import '../BottomNavBar/bottom_nav_bar.dart';
 
@@ -55,14 +56,20 @@ Future<bool> logIn(String email, String password, BuildContext context) async {
     showFlutterToast(context,
         message: ex.message.toString(), errorInfo: 'error');
     return false;
+  } catch (e) {
+    print("Creds: $credentials, Error: $e");
   }
-
-  String uid = credentials.user!.uid;
-
-  DocumentSnapshot userData =
-      await FirebaseFirestore.instance.collection('users').doc(uid).get();
-  UserModel userModel =
-      UserModel.fromMap(userData.data() as Map<String, dynamic>);
+  String uid;
+  UserModel? userModel;
+  if (credentials != null) {
+    uid = credentials.user!.uid;
+    DocumentSnapshot userData =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    userModel = UserModel.fromMap(userData.data() as Map<String, dynamic>);
+  } else {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    userModel = await FirebaseHelper.getUserModelById(currentUser!.uid);
+  }
 
   UserModel.loggedinUser = userModel;
   Navigator.pop(context);
@@ -72,7 +79,7 @@ Future<bool> logIn(String email, String password, BuildContext context) async {
     context,
     BottomNavBarScreen(
       initialIndex: 0,
-      role: userModel.role ?? 'guest',
+      role: userModel!.role ?? 'guest',
     ),
   );
   return true;

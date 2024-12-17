@@ -12,6 +12,8 @@ class OrderModel {
   String? deliveredAt;
   String? status;
   String? trackingStatus;
+  String? deliveryRemarks;
+  String? deliveryProof;
   bool? isAccepted;
   bool? isActive;
   bool? isDelivered;
@@ -36,6 +38,8 @@ class OrderModel {
       required this.orderItems,
       required this.status,
       required this.isPicked,
+      required this.deliveryRemarks,
+      required this.deliveryProof,
       required this.trackingStatus});
 
   OrderModel.fromMap(Map<String, dynamic> map) {
@@ -56,6 +60,8 @@ class OrderModel {
     isDelivered = map["isDelivered"];
     orderItems = map["orderItems"];
     status = map["status"];
+    deliveryRemarks = map["deliveryRemarks"];
+    deliveryProof = map["deliveryProof"];
     trackingStatus = map["trackingStatus"] ?? "placed";
     isPicked = map["isPicked"] ?? false;
   }
@@ -80,6 +86,8 @@ class OrderModel {
       "deliverylatitude": deliverylatitude,
       "trackingStatus": trackingStatus,
       "isPicked": isPicked,
+      "deliveryRemarks": deliveryRemarks,
+      "deliveryProof": deliveryProof,
     };
   }
 }

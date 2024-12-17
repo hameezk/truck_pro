@@ -1,10 +1,15 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:truck_pro/methods/navigate.dart';
 import 'package:truck_pro/models/order_model.dart';
 import 'package:truck_pro/models/user_model.dart';
 import 'package:truck_pro/res/helpers/firebase_helper.dart';
 import 'package:truck_pro/utilities/app_colors.dart';
+import 'package:truck_pro/view/ScanScreens/scan_QR_screen.dart';
 import 'package:truck_pro/widgets/custom_appbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../models/chats_model.dart';
@@ -86,6 +91,27 @@ class _OrderDetailsDriverState extends State<OrderDetailsDriver> {
                                                 orderModel.orderId!,
                                                 style: const TextStyle(
                                                     fontSize: 12,
+                                                    color: AppColors.blackColor,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 20),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'Status:  ',
+                                                style: const TextStyle(
+                                                    fontSize: 16,
+                                                    color: AppColors.blackColor,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Text(
+                                                orderModel.trackingStatus!,
+                                                style: const TextStyle(
+                                                    fontSize: 16,
                                                     color: AppColors.blackColor,
                                                     fontWeight:
                                                         FontWeight.bold),
@@ -200,20 +226,21 @@ class _OrderDetailsDriverState extends State<OrderDetailsDriver> {
                                             hoverColor: Colors.transparent,
                                             highlightColor: Colors.transparent,
                                             onTap: () {
-                                              (orderModel
-                                                              .isAccepted ??
+                                              (orderModel.isAccepted ??
                                                           false) ==
                                                       false
-                                                  ? acceptOrder(context,
-                                                      orderModel)
-                                                  : (orderModel
-                                                                  .isAccepted ==
+                                                  ? acceptOrder(
+                                                      context, orderModel)
+                                                  : (orderModel.isAccepted ==
                                                               true &&
                                                           orderModel
                                                                   .isPicked ==
                                                               false)
-                                                      ? pickOrder(
-                                                          context, orderModel)
+                                                      ? navigateReplace(
+                                                          context,
+                                                          ScanDialogScreen(
+                                                              orderModel:
+                                                                  orderModel))
                                                       : (orderModel
                                                                       .isAccepted ==
                                                                   true &&
@@ -223,10 +250,12 @@ class _OrderDetailsDriverState extends State<OrderDetailsDriver> {
                                                               orderModel
                                                                       .isDelivered ==
                                                                   false)
-                                                          ? deliverOrder(
+                                                          ? showDeliverOrderDialog(
                                                               context,
                                                               orderModel)
-                                                          : () {};
+                                                          : showDeliveryProofDialog(
+                                                              context,
+                                                              orderModel);
                                             },
                                             child: Container(
                                               padding:
@@ -436,6 +465,100 @@ class _OrderDetailsDriverState extends State<OrderDetailsDriver> {
         ),
       ),
     );
+  }
+
+  showDeliverOrderDialog(BuildContext context, OrderModel orderModel) {
+    AlertDialog dialog = AlertDialog(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Confirm order delivery",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: AppColors.blackColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w500),
+          ),
+        ],
+      ),
+      content: SingleChildScrollView(
+        child: StatefulBuilder(builder: (context, state) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Image Preview
+              imageFile != null
+                  ? Image.file(
+                      imageFile!,
+                      height: 150,
+                      fit: BoxFit.cover,
+                    )
+                  : Container(
+                      height: 150,
+                      width: screenWidth(context) * 0.9,
+                      color: Colors.grey[300],
+                      child: Center(
+                        child: Text("No image selected"),
+                      ),
+                    ),
+              SizedBox(height: 10),
+              // Buttons to Upload Image
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: () => pickImage(ImageSource.camera, state),
+                    icon: Icon(Icons.camera_alt),
+                    label: Text("Camera"),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () => pickImage(ImageSource.gallery, state),
+                    icon: Icon(Icons.photo),
+                    label: Text("Gallery"),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              // Text Field for Remarks
+              SizedBox(
+                width: screenWidth(context) * 0.9,
+                child: TextField(
+                  controller: remarksController,
+                  maxLines: 2,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Remarks",
+                    hintText: "Enter your remarks here",
+                  ),
+                ),
+              ),
+            ],
+          );
+        }),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text("Cancel"),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            validateDelivery(context, orderModel);
+          },
+          child: Text("Submit"),
+        ),
+      ],
+    );
+
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return dialog;
+        });
   }
 }
 

@@ -9,12 +9,11 @@ import 'utilities/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'data/network/check_internet_connectivity.dart';
 import 'view/BottomNavBar/bottom_nav_bar.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initNoInternetListener();
+  // await initNoInternetListener();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   User? currentUser = FirebaseAuth.instance.currentUser;

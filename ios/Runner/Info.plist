@@ -55,5 +55,10 @@
 	<string>Can I have location always?</string>
 	<key>NSCameraUsageDescription</key>
 	<string>The camera is required to scan the receipt.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This is called Privacy - Photo Library Usage Description in the visual editor</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Can I use the photos please?</string>
+	
 </dict>
 </plist>

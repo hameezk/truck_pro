@@ -60,8 +60,11 @@ class OrderListile extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    DateFormat('EEEE, MMM d, yyyy')
-                        .format(DateTime.parse(orderModel.createdAt ?? '')),
+                    (orderModel.isDelivered == false)
+                        ? DateFormat('EEEE, MMM d, yyyy')
+                            .format(DateTime.parse(orderModel.createdAt ?? ''))
+                        : DateFormat('EEEE, MMM d, yyyy').format(
+                            DateTime.parse(orderModel.deliveredAt ?? '')),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: textThemeData(context).headlineSmall!.copyWith(

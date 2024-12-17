@@ -4,7 +4,7 @@ var connectionStatus = ConnectionStatusListener.getInstance();
 bool showWidget = false;
 
 initNoInternetListener() async {
-  await connectionStatus.initialize();
+  // await connectionStatus.initialize();
 
   if (!connectionStatus.hasConnection) {
     updateConnectivity(false, connectionStatus);

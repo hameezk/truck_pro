@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:truck_pro/models/order_model.dart';
 import 'package:truck_pro/models/user_model.dart';
 import 'package:truck_pro/res/helpers/firebase_helper.dart';
@@ -12,6 +13,7 @@ import '../../utilities/assets_manager.dart';
 import '../../utilities/constants.dart';
 import '../../utilities/screen_sizes.dart';
 import '../Chats/chatroom.dart';
+import 'order_details_controller.dart';
 
 class OrderDetails extends StatefulWidget {
   final OrderModel orderModel;
@@ -107,6 +109,27 @@ class _OrderDetailsState extends State<OrderDetails> {
                                                 orderModel.orderId!,
                                                 style: const TextStyle(
                                                     fontSize: 12,
+                                                    color: AppColors.blackColor,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 20),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'Status:  ',
+                                                style: const TextStyle(
+                                                    fontSize: 16,
+                                                    color: AppColors.blackColor,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Text(
+                                                orderModel.trackingStatus!,
+                                                style: const TextStyle(
+                                                    fontSize: 16,
                                                     color: AppColors.blackColor,
                                                     fontWeight:
                                                         FontWeight.bold),
@@ -271,6 +294,74 @@ class _OrderDetailsState extends State<OrderDetails> {
                                               ),
                                             ),
                                           ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          ((orderModel.isAccepted == true &&
+                                                      orderModel.isPicked ==
+                                                          false)) ||
+                                                  orderModel.isDelivered == true
+                                              ? InkWell(
+                                                  focusColor:
+                                                      Colors.transparent,
+                                                  hoverColor:
+                                                      Colors.transparent,
+                                                  highlightColor:
+                                                      Colors.transparent,
+                                                  onTap: () {
+                                                    (orderModel.isAccepted ==
+                                                                true &&
+                                                            orderModel
+                                                                    .isPicked ==
+                                                                false)
+                                                        ? showPickUpQrCode(
+                                                            context, orderModel)
+                                                        : showDeliveryProofDialog(
+                                                            context,
+                                                            orderModel);
+                                                  },
+                                                  child: Container(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                      vertical: 10,
+                                                    ),
+                                                    decoration: BoxDecoration(
+                                                        color: AppColors
+                                                            .primaryColor,
+                                                        border: Border.all(
+                                                          color: AppColors
+                                                              .primaryColor,
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            const BorderRadius
+                                                                .all(
+                                                          Radius.circular(5),
+                                                        )),
+                                                    child: Center(
+                                                      child: Text(
+                                                        (orderModel.isAccepted ==
+                                                                    true &&
+                                                                orderModel
+                                                                        .isPicked ==
+                                                                    false)
+                                                            ? 'Mark As Picked'
+                                                            : 'Delivered at: ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.parse(orderModel.deliveredAt!))}',
+                                                        style: TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: AppColors
+                                                              .blackColor,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              : Container(),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -419,6 +510,101 @@ class _OrderDetailsState extends State<OrderDetails> {
           ],
         ),
       ),
+    );
+  }
+
+  void showPickUpQrCode(BuildContext context, OrderModel orderModel) {
+    Future.delayed(const Duration(seconds: 0)).then(
+      (value) => showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return SizedBox(
+            height: screenHeight(context) * 0.8,
+            width: screenWidth(context) * 0.8,
+            child: StatefulBuilder(builder: (context, state) {
+              return AlertDialog(
+                contentPadding: EdgeInsets.zero,
+                backgroundColor: Colors.white,
+                title: SizedBox(
+                  width: screenWidth(context) * 0.8,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Center(
+                          child: SizedBox(
+                            height: screenWidth(context) * 0.5,
+                            width: screenWidth(context) * 0.5,
+                            child: generateQR(orderModel.orderId!),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        "The Driver will scan the Qr Code to start the Order",
+                        maxLines: 3,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            color: AppColors.backGroundColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700),
+                      ),
+                    ],
+                  ),
+                ),
+                actionsPadding: EdgeInsets.zero,
+                actions: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20, right: 20, bottom: 10),
+                              child: Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    color: AppColors.whiteColor,
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(15),
+                                    ),
+                                    border: Border.all(color: Colors.black12)),
+                                child: Center(
+                                  child: Text(
+                                    'Close',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            }),
+          );
+        },
+      ),
+    );
+  }
+
+  QrImage generateQR(String orderId) {
+    return QrImage(
+      data: orderId,
+      version: QrVersions.auto,
+      size: 200.0,
+      foregroundColor: AppColors.backGroundColor,
     );
   }
 }

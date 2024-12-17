@@ -62,7 +62,8 @@ class _MyOrdersState extends State<MyOrdersDriver> {
                             StreamBuilder(
                               stream: FirebaseFirestore.instance
                                   .collection("orders")
-                                  .where("status", isEqualTo: 'active')
+                                  .where("driverId",
+                                      isEqualTo: UserModel.loggedinUser!.id)
                                   .snapshots(),
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState ==

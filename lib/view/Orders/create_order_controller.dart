@@ -371,8 +371,10 @@ void cerateOrder(BuildContext context) async {
       isDelivered: false,
       orderItems: ordersList,
       status: 'active',
-      trackingStatus: 'placed',
+      trackingStatus: 'Placed',
       isPicked: false,
+      deliveryRemarks: null,
+      deliveryProof: null,
     );
     await FirebaseFirestore.instance
         .collection("orders")

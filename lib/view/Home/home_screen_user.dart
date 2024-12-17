@@ -127,6 +127,7 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
                                       .where("userId",
                                           isEqualTo: UserModel.loggedinUser!.id)
                                       .where("status", isEqualTo: 'active')
+                                      .where("isDelivered", isEqualTo: false)
                                       .snapshots(),
                                   builder: (context, snapshot) {
                                     if (snapshot.connectionState ==

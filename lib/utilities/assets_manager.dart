@@ -19,4 +19,5 @@ class AssetsManager {
   static String work = "$baseIconPath/work.png";
   static String detail = "$baseIconPath/detail.png";
   static String arrowIcon = "$baseIconPath/arrow.png";
+  static String scannerImage = "$baseImagePath/scanner.gif";
 }

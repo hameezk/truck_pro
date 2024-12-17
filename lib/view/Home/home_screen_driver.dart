@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:truck_pro/models/user_model.dart';
+import '../../models/order_model.dart';
 import '../../utilities/screen_sizes.dart';
 import 'package:flutter/material.dart';
-
 import '../../utilities/app_colors.dart';
 import '../../utilities/assets_manager.dart';
 import '../../utilities/constants.dart';
+import '../Orders/orders_card.dart';
 
 class HomeScreenDriver extends StatefulWidget {
   const HomeScreenDriver({super.key});
@@ -29,9 +32,12 @@ class _HomeScreenDriverState extends State<HomeScreenDriver> {
                   child: SizedBox(
                     child: Column(
                       children: [
-                        CircleAvatar(
-                          radius: 40,
-                          child: Image.asset(AssetsManager.sampleImage),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(5000),
+                          child: CircleAvatar(
+                            radius: 40,
+                            child: Image.asset(AssetsManager.sampleImage),
+                          ),
                         ),
                         heightSizedBox10,
                         Text(
@@ -41,7 +47,7 @@ class _HomeScreenDriverState extends State<HomeScreenDriver> {
                               .copyWith(color: AppColors.blackColor),
                         ),
                         Text(
-                          "Abdullah khan",
+                          UserModel.loggedinUser!.name ?? "",
                           style: textThemeData(context).headlineSmall!.copyWith(
                               color: AppColors.blackColor.withOpacity(0.5)),
                         )
@@ -78,160 +84,120 @@ class _HomeScreenDriverState extends State<HomeScreenDriver> {
                           ),
                           heightSizedBox20,
                           Expanded(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  GridView(
-                                    gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      crossAxisSpacing: 10,
-                                      mainAxisSpacing: 10,
-                                      mainAxisExtent: 140,
+                            child: Column(
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () =>
+                                          UserModel.setDefaultUsers(context),
+                                      child: Text('Available Orders',
+                                          style: textThemeData(context)
+                                              .headlineMedium!),
                                     ),
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    padding: const EdgeInsets.all(0),
-                                    children: List.generate(4, (index) {
-                                      return Container(
-                                        height: 140,
-                                        width: 160,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.backGroundColor,
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              height: 50,
-                                              width: 50,
-                                              decoration: BoxDecoration(
-                                                color: AppColors.whiteColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              child: Padding(
+                                    // Padding(
+                                    //   padding:
+                                    //       const EdgeInsets.only(bottom: 2.0),
+                                    //   child: GestureDetector(
+                                    //     onTap: () => navigateReplace(
+                                    //         context,
+                                    //         BottomNavBarScreen(
+                                    //             initialIndex: 2,
+                                    //             role: UserModel
+                                    //                     .loggedinUser!.role ??
+                                    //                 'user')),
+                                    //     child: Text(
+                                    //       "See all",
+                                    //       style:
+                                    //           headingSM.copyWith(fontSize: 12),
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                  ],
+                                ),
+                                StreamBuilder(
+                                  stream: FirebaseFirestore.instance
+                                      .collection("orders")
+                                      .where("isAccepted", isEqualTo: false)
+                                      .where("status", isEqualTo: 'active')
+                                      .snapshots(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.active) {
+                                      if (snapshot.hasData) {
+                                        QuerySnapshot orderSnapshot =
+                                            snapshot.data as QuerySnapshot;
+                                        print("Data: ${orderSnapshot.docs}");
+                                        return (orderSnapshot.docs.length > 0)
+                                            ? Padding(
                                                 padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child:
-                                                    Image.asset(images[index]),
-                                              ),
-                                            ),
-                                            Text(
-                                              containerText[index],
-                                              textAlign: TextAlign.center,
-                                              style: textThemeData(context)
-                                                  .headlineSmall!
-                                                  .copyWith(
-                                                      fontStyle:
-                                                          FontStyle.italic,
-                                                      fontSize: 12),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    }),
-                                  ),
-                                  heightSizedBox20,
-                                  Container(
-                                    height: 180,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      color: AppColors.backGroundColor,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10.0, vertical: 10),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                'Attendence',
-                                                style: textThemeData(context)
-                                                    .headlineSmall!
-                                                    .copyWith(
-                                                      color: AppColors
-                                                          .primaryColor,
-                                                      fontStyle:
-                                                          FontStyle.italic,
-                                                      fontSize: 12,
-                                                    ),
-                                              ),
-                                              Text(
-                                                '27 April, 2023',
-                                                style: textThemeData(context)
-                                                    .headlineSmall!
-                                                    .copyWith(
-                                                        fontStyle:
-                                                            FontStyle.italic,
-                                                        fontSize: 12),
-                                              ),
-                                            ],
-                                          ),
-                                          GridView(
-                                            gridDelegate:
-                                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 3,
-                                              crossAxisSpacing: 10,
-                                              mainAxisSpacing: 10,
-                                              mainAxisExtent: 60,
-                                            ),
-                                            shrinkWrap: true,
-                                            physics:
-                                                const NeverScrollableScrollPhysics(),
-                                            padding:
-                                                const EdgeInsets.only(top: 10),
-                                            children: List.generate(6, (index) {
-                                              return Container(
-                                                decoration: BoxDecoration(
-                                                  color: AppColors.blackColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 8.0),
+                                                child: ListView.separated(
+                                                  shrinkWrap: true,
+                                                  itemCount:
+                                                      orderSnapshot.docs.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    OrderModel orderModel =
+                                                        OrderModel.fromMap(
+                                                            orderSnapshot
+                                                                    .docs[index]
+                                                                    .data()
+                                                                as Map<String,
+                                                                    dynamic>);
+                                                    return OrderListile(
+                                                      orderModel: orderModel,
+                                                    );
+                                                  },
+                                                  separatorBuilder:
+                                                      (BuildContext context,
+                                                              int index) =>
+                                                          SizedBox(
+                                                    height: 7,
+                                                  ),
                                                 ),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    // Text(
-                                                    //   containerText[index],
-                                                    //   textAlign: TextAlign.center,
-                                                    //   style: textThemeData(context)
-                                                    //       .headlineSmall!
-                                                    //       .copyWith(fontStyle: FontStyle.italic),
-                                                    // ),
-                                                    Text(
-                                                      '34\nPresent',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style:
-                                                          textThemeData(context)
-                                                              .headlineSmall!
-                                                              .copyWith(
-                                                                  fontSize: 12),
-                                                    )
-                                                  ],
+                                              )
+                                            : Expanded(
+                                                child: Center(
+                                                  child: Text(
+                                                    "No Available Orders To Show!",
+                                                    style: headingSM,
+                                                  ),
                                                 ),
                                               );
-                                            }),
+                                      } else if (snapshot.hasError) {
+                                        return Expanded(
+                                          child: Center(
+                                            child: Text(
+                                              snapshot.error.toString(),
+                                              style: headingSM,
+                                            ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                        );
+                                      } else {
+                                        return Expanded(
+                                          child: Center(
+                                            child: Text(
+                                              "No Orders to show!",
+                                              style: headingSM,
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    } else {
+                                      return Expanded(
+                                        child: const Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                ),
+                              ],
                             ),
                           )
                         ],

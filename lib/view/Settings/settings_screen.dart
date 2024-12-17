@@ -3,6 +3,7 @@ import 'package:truck_pro/methods/loading_dialog.dart';
 import 'package:truck_pro/methods/navigate.dart';
 import 'package:truck_pro/models/user_model.dart';
 import 'package:truck_pro/view/SplashScreen/splash_screen.dart';
+import 'package:truck_pro/view/profile/edit_profile_screen.dart';
 import '../../utilities/constants.dart';
 import '../../utilities/screen_sizes.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               title: '',
               foreGroundColor: AppColors.whiteColor,
               backGroundColor: AppColors.backGroundColor,
-              showBackButton: true,
+              showBackButton: false,
             ),
             Padding(
               padding:
@@ -63,13 +64,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   child: Image.network(
                                     UserModel.loggedinUser!.image ??
                                         UserModel.defaultImage,
-                                    // loadingBuilder:
-                                    //     (context, child, loadingProgress) =>
-                                    //         Image.asset(
-                                    //   AssetsManager.employee,
-                                    //   color: AppColors.whiteColor,
-                                    //   height: 40,
-                                    // ),
+                                    width: 1000,
+                                    fit: BoxFit.cover,
                                   ),
                                 )),
                             Positioned(
@@ -118,10 +114,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           icon: Icon(
                             Icons.exit_to_app_rounded,
                             color: AppColors.blackColor,
-                            size: 14,
+                            size: 24,
                           ),
                           onTap: () {
                             logout();
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5.0),
+                        child: SettingsCard(
+                          text: 'Edit Profile',
+                          icon: Icon(
+                            Icons.person,
+                            color: AppColors.blackColor,
+                            size: 24,
+                          ),
+                          onTap: () {
+                            navigate(context, EditProfileScreen());
                           },
                         ),
                       )
@@ -162,7 +172,7 @@ class SettingsCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
-            color: AppColors.lightGreyColor),
+            color: AppColors.primaryColor),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
